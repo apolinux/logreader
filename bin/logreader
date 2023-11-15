@@ -1,0 +1,80 @@
+<?php
+
+require_once __DIR__ .'/../vendor/autoload.php' ;
+
+use Apolinux\LogReader\LogReader;
+use Apolinux\LogReader\CmdCli;
+
+$logreader=new LogReader;
+//echo "argc:$argc".PHP_EOL ;
+
+
+/*class CmdCliOption{
+  public function construct($short,$long, $type){
+
+  }
+}
+
+class OptionTemp{
+  const TYPE_LONG='LONG';
+  const TYPE_SHORT='SHORT';
+  const TYPE_ARG='ARG';
+
+  private $name ;
+  private $type ;
+  public $param ;
+  public function __construct($name, $type){
+    $this->name = $name ;
+    $this->type = $type ;
+  }
+}
+*/
+
+echo "argc: $argc, args:"; print_r($argv);
+//return ;
+
+$cmd_cli = new CmdCli;
+$cmd_cli->addHelp('this is help');
+$cmd_cli->addOpt(
+  'xml', 
+  CmdCli::TYPE_SINGLE_OPT, 
+  'x',
+  'xml', 
+  $require_parameter=false, 
+  $optional=false
+);
+$cmd_cli->addOpt(
+  'json',
+  CmdCli::TYPE_SINGLE_OPT, 
+  'j',
+  'json',
+  $require_parameter=false ,
+  $optional=true
+  ) ;
+  
+$cmd_cli->addArg('filename',$optional=true);
+
+$cmd_cli->parse();
+$opts = $cmd_cli->getParsedOpts();
+$args = $cmd_cli->getParsedArgs();
+$filename = $args['filename'];
+$parse_xml = $opts['xml'];
+$parse_json = $opts['json'];
+
+echo "parse result: $filename, $parse_xml, $parse_json". PHP_EOL;
+return ;
+
+if($argc < 2){
+  $filename = fopen('php://stdin','r+');
+}else{
+  $filename = $argv[1];
+}
+
+try{
+  $reader = $logreader->read($filename, '', true,true);
+  foreach($reader as $item){
+    echo $item . PHP_EOL;
+  }
+}catch(\Exception $e){
+  fwrite(STDERR,$e->getMessage().PHP_EOL);
+}
