@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "apolinux/cmdcli",
-            "version": "v0.2.3",
+            "version": "v0.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/apolinux/cmdcli.git",
-                "reference": "9304c60bb566b40c56641eeea2c1b65f95d45068"
+                "reference": "34f6db2f82d571ef9d6a665e2de904efe7be726f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/apolinux/cmdcli/zipball/9304c60bb566b40c56641eeea2c1b65f95d45068",
-                "reference": "9304c60bb566b40c56641eeea2c1b65f95d45068",
+                "url": "https://api.github.com/repos/apolinux/cmdcli/zipball/34f6db2f82d571ef9d6a665e2de904efe7be726f",
+                "reference": "34f6db2f82d571ef9d6a665e2de904efe7be726f",
                 "shasum": ""
             },
             "require-dev": {
@@ -42,9 +42,9 @@
             "description": "Parse CLI arguments and options",
             "support": {
                 "issues": "https://github.com/apolinux/cmdcli/issues",
-                "source": "https://github.com/apolinux/cmdcli/tree/v0.2.3"
+                "source": "https://github.com/apolinux/cmdcli/tree/v0.2.4"
             },
-            "time": "2023-11-17T16:16:59+00:00"
+            "time": "2023-11-17T19:58:26+00:00"
         }
     ],
     "packages-dev": [

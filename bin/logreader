@@ -25,7 +25,8 @@ $cmd_cli->addOpt(
   false ,
   true
   )
-  ->addArg('filename','filename to read. If not set, use stdin', $optional=true);
+  ->addArg('filename','filename to read. If not set, use stdin', $optional=true)
+  ->addOpt('show_errors',null,'show xml errors','e','show_error',false,true);
 
 $cmd_cli->parse();
 $opts = $cmd_cli->getParsedOpts();
@@ -33,15 +34,14 @@ $args = $cmd_cli->getParsedArgs();
 $filename = $args['filename'] ?? null;
 $parse_xml = $opts['xml'] ?? false;
 $parse_json = $opts['json'] ?? false;
-
-//echo "parse result: $filename, $parse_xml, $parse_json". PHP_EOL;
+$show_errors = $opts['show_errors'] ?? false ;
 
 if(null === $filename){
   $filename = fopen('php://stdin','r+');
 }
 
 try{
-  $reader = $logreader->read($filename, $parse_json, $parse_xml);
+  $reader = $logreader->read($filename, $parse_json, $parse_xml, $show_errors);
   foreach($reader as $item){
     echo $item . PHP_EOL;
   }
