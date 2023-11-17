@@ -8,7 +8,7 @@ class LogReader{
 
   private $xmllint_cmd ;
 
-  public function read($filename, $format, $ignore_errors=true, $pretty=true){
+  public function read($filename, $json_pretty=false, $xml_pretty=false){
     if(is_string($filename)){
       if(! file_exists($filename)){
         throw new FileNotFoundException($filename);
@@ -23,7 +23,7 @@ class LogReader{
     }
 
     $json_options = JSON_UNESCAPED_SLASHES ;
-    if($pretty){
+    if($json_pretty){
       $json_options |= JSON_PRETTY_PRINT;
     }
     $this->xmllint_cmd = $this->parseXmlExists();
@@ -36,7 +36,7 @@ class LogReader{
       }
       $line_conv = $this->readLine($line);
       $out = json_encode($line_conv,$json_options);
-      $out = $this->adaptText($out);
+      $out = $this->adaptText($out, $json_pretty, $xml_pretty);
       yield $out ;
     }
   }
@@ -45,28 +45,33 @@ class LogReader{
     return `which xmllint`;
   }
 
-  private function adaptText($out){
-    if($this->xmllint_cmd){
+  private function adaptText($out, $json_pretty, $xml_pretty){
+    if($this->xmllint_cmd && $xml_pretty){
       $xmllint_cmd = trim($this->xmllint_cmd);
       $out = $this->adaptXml($out,$xmllint_cmd);
     }
 
-    $out = $this->adaptJson($out);
+    $out = $this->adaptJson($out, $json_pretty);
 
     return $out; 
   }
 
-  private function adaptJson($out){
+  private function adaptJson($out, $json_pretty=false){
+    $json_options=null;
+    if($json_pretty){
+      $json_options = JSON_PRETTY_PRINT;
+    }
     $out2=preg_replace_callback(
       '/"(\{.*\})"/',
-      function($matches) {
+      function($matches) use($json_options){
         $json = $matches[1];
         $json = str_replace('\"','"',$json);
         $data = json_decode($json);
         if($data === null){
           $data2= $matches[0] ;
         }else{
-          $data2 = json_encode($data,JSON_PRETTY_PRINT);
+          
+          $data2 = json_encode($data, $json_options);
         } 
         return $data2 ;
       },
@@ -79,7 +84,6 @@ class LogReader{
     $out2=preg_replace_callback(
       '/"(<.*>)"/',
       function($matches) use ($xmllint_cmd){
-        //$xml=str_replace('\"','"',$matches[1]);
         $xml = $matches[1];
         
         $out=`echo "$xml"|$xmllint_cmd  --format -`;
@@ -98,20 +102,11 @@ class LogReader{
       $part3 = $parts[3];
       $part3_obj = json_decode($part3,true);
       if($part3_obj !== null){
-        //array_walk($part3_obj, fn($item, $clave) => $this->parseJson($item, $clave));
+        
         $out[3] = $part3_obj ;
       }
     }
     
     return $out ;
-  }
-
-  private function parseJson($item,$key){
-    if(preg_match('/<?xml/',$item)){
-      $objxml = simplexml_load_string($item);
-      if($objxml !== false){
-        $item = 'faltaaaaaaa';
-      }
-    }
   }
 }

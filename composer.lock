@@ -4,8 +4,49 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3f50206d8af69d7fec93f575323a1b1c",
-    "packages": [],
+    "content-hash": "20ca091adc8e05924634f610ccd48bfd",
+    "packages": [
+        {
+            "name": "apolinux/cmdcli",
+            "version": "v0.2.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/apolinux/cmdcli.git",
+                "reference": "9304c60bb566b40c56641eeea2c1b65f95d45068"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/apolinux/cmdcli/zipball/9304c60bb566b40c56641eeea2c1b65f95d45068",
+                "reference": "9304c60bb566b40c56641eeea2c1b65f95d45068",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "9.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Apolinux\\CmdCli\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Carlos Arce",
+                    "email": "apolinux@gmail.com"
+                }
+            ],
+            "description": "Parse CLI arguments and options",
+            "support": {
+                "issues": "https://github.com/apolinux/cmdcli/issues",
+                "source": "https://github.com/apolinux/cmdcli/tree/v0.2.3"
+            },
+            "time": "2023-11-17T16:16:59+00:00"
+        }
+    ],
     "packages-dev": [
         {
             "name": "doctrine/instantiator",

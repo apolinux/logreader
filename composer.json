@@ -16,5 +16,7 @@
             "email": "apolinux@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "apolinux/cmdcli": "0.2.*"
+    }
 }
